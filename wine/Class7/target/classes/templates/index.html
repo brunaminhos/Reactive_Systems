@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Wine</h1>
+<h1 id ="wine"></h1>
+
+<h1>Winery</h1>
+<h1 id ="winery"></h1>
+
+<h1>Rating</h1>
+<h1 id ="rating"></h1>
+
+
+<script>
+  var source = new EventSource("http://localhost:8080/wine")
+
+  source.onopen = function (){
+    console.log("Made a Conection");
+  }
+  source.onerror = function(error){
+    console.log("An error ocurred", error);
+  }
+  source.onmessage = function (event){
+    var wineJson = event.data;
+    var parsedJson = JSON.parse(wineJson);
+
+    document.getElementById("wine").innerHTML = parsedJson.wine;
+    document.getElementById("winery").innerHTML = parsedJson.winery;
+    document.getElementById("average").innerHTML = parsedJson.rating.average;
+
+
+
+  }
+</script>
+</body>
+</html>
